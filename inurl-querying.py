@@ -4,6 +4,7 @@ import os
 from webdriver_manager.chrome import ChromeDriverManager
 import warnings
 
+## supressing depracation warnings just for less clutter - has no effect on program
 warnings.filterwarnings("ignore", category=DeprecationWarning) 
 
 def header():
@@ -15,23 +16,15 @@ def header():
 
 ============================================================================
 """)
-    
+
+## also supresses warning logs that have no effect on program
 options = webdriver.ChromeOptions()
-options.add_experimental_option('excludeSwitches', ['enable-logging'])  
+options.add_experimental_option('excludeSwitches', ['enable-logging'])
+
+## Installs Chrome Driver Manage - added this for a pathing quick fix in the meantime
 driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
 
-def url_validation(url):
-    try:
-        header = {'User-Agent': 'Chrome/106.0.0.0'}
-        r = requests.get(url, headers=header, timeout=10)
-    except:
-        return False
-
-    if r.status_code == 200:
-        return True
-    else:
-        return False
-
+## Runs selected queries, opens web browser to show results
 def run_query(query):
     driver.get("https://www.google.com/search?q=inurl:" + query)   
     print("----------------------------------------------------------------------------")
@@ -40,9 +33,9 @@ def run_query(query):
     main_menu()
     return
 
+## List of premade inurl queries
 def presets_menu():
     header()
-
     query = input("""
                 1. 2082/frontend -demo
                 2. /shop.cgi/page= | /shop.pl/page=
@@ -56,6 +49,7 @@ def presets_menu():
                 10. go back
                 """)
     if query == "1":
+        ## Makes sure only one browser window is open 
         if len(driver.window_handles) > 1:
             driver.close()
         run_query("2082/frontend -demo")
