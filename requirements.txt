@@ -1,0 +1,6 @@
+requests
+selenium
+os
+webdriver_manager.chrome
+warnings
+
